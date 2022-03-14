@@ -5,6 +5,9 @@ body {
   padding: 0;
 }
 
+.jumbotron {
+  background-color: aquamarine;
+}
 .save-note {
   display: none;
 }
