@@ -2,7 +2,8 @@
 const fs = require("fs");
 const express = require("express");
 const path = require("path");
-const port = 3002;
+const server = require("http");
+const port = process.env.PORT || 8080;
 
 // Setting Up Server
 const app = express()
@@ -11,22 +12,37 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 // GET Requests
-app.get("/notes", (req, res) => {
+app.get("public/notes", (req, res) => {
+    res.sendFile(path.join(__dirname, "/public/notes"));
+});
+
+app.get("/api/notes", (req, res) => {
+res.sendFile(path.join(__dirname, "/db/db.json"));
+});
+
+app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "/public/notes.html"));
 });
   
-app.get('/api/notes', (req, res) => {
-    res.send('')
-  });
-
-app.get('*', (req, res) => {
-    res.send('')
-  });
-
-  
 // POST Requests
 
+app.get("/api/notes", function(req, res) {
+  readFileAsync("./db/db.json", "utf8").then(function(data) {
+      notes = [].concat(JSON.parse(data))
+      res.json(notes);
+    })
+}); 
 
-  app.listen(port, () =>
-  console.log(`Server listening at: http://localhost:${port}!`)
-);
+app.post("/api/notes", (req, res) => {
+  let Note = req.body;
+  let noteList = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+  let noteSize = (noteList.length).toString();
+  Note.id = noteSize;
+  noteList.push(Note);
+  fs.writeFileSync("./db/db.json", JSON.stringify(noteList));
+  res.json(noteList);
+})
+
+app.listen(port, "0.0.0.0", function() {
+  console.log("App listening on PORT " + port);
+});
