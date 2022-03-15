@@ -4,9 +4,10 @@ const express = require("express");
 const path = require("path");
 const server = require("http");
 const { v4: uuidv4 } = require('uuid');
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8000;
 
 // Setting Up Express Server
+
 const app = express()
 app.use(express.json());
 app.use(express.static('public'));
@@ -14,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // GET Requests
 app.get("/notes", function (req, res) {
-  res.sendFile(path.join(__dirname, "public/notes.html"));
+  res.sendFile(path.join(__dirname, "public/notes"));
 })
 
 app.get("*", function (req, res) {
