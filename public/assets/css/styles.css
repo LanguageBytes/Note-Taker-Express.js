@@ -5,7 +5,7 @@ body {
   padding: 0;
 }
 
-.jumbotron {
+.jumbotron .fill {
   background-color: aquamarine;
 }
 .save-note {
