@@ -1,5 +1,4 @@
-# 
-<p align = "center">  Virtual Notepad </p>
+# <p align = "center">  Virtual Notepad </p>
 
 
 <p align = "center"> 
